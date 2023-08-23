@@ -1,8 +1,14 @@
 // hooks/useAuth.js
-import { View, Text } from 'react-native'
-import { createContext, useContext } from 'react'
+import { createContext, useContext, useEffect } from 'react'
 
-// import * as Google from 'expo-google-app-auth'
+import * as Google from 'expo-google-app-auth'
+import {
+	GoogleAuthProvider,
+	onAuthStateChanged,
+	signInWithCredential,
+	signOut,
+} from 'firebase/auth' // notes
+import { auth } from '../firebase' // notes
 
 const AuthContext = createContext({})
 
@@ -14,22 +20,91 @@ const config = {
 }
 
 export const AuthProvider = ({ children }) => {
+	const [error, setError] = useState(null) // notes
+	const [user, setUser] = useState(null) // notes
+	const [loadingInitial, setLoadingInitial] = useState(true) // notes
+	const [loading, setLoading] = useState(false) // notes
+
+	useEffect(() => {
+		const unsub = onAuthStateChanged(auth, () => {
+			if (user) {
+				// user is logged in
+				setUser(user)
+			} else {
+				// user is not logged out
+				setUser(null)
+			}
+
+			setLoadingInitial(false)
+		})
+
+		return unsub()
+	}, [])
+
 	const signInWithGoogle = async () => {
+		setLoading(true)
+
+		// .then and .catch version
+		await Google.logInAsync
+			.then(async (logInResult) => {
+				if (loginResult.type === 'success') {
+					const { idToken, accessToken } = loginResult
+					const credential = GoogleAuthProvider.credential(idToken, accessToken)
+					await signInWithCredential(auth, credential)
+				}
+			})
+			.catch((error) => {
+				setError(error)
+			})
+			.finally(() => {
+				setLoading(false)
+			})
+
+		// async and await version
 		const loginResult = await Google.logInAsync(config)
-		if (loginResult.type === 'success') {
-			return loginResult.accessToken
-			// login..
+		try {
+			if (loginResult.type === 'success') {
+				const { idToken, accessToken } = loginResult
+				const credential = GoogleAuthProvider.credential(idToken, accessToken)
+				await signInWithCredential(auth, credential)
+			}
+			return Promise.reject()
+		} catch (error) {
+			setError(error)
+		} finally {
+			setLoading(false)
+		}
+	}
+
+	const logout = async () => {
+		setLoading(true)
+
+		// .then and .catch version
+		signOut(auth)
+			.catch((error) => setError(error))
+			.finally(() => setLoading(false))
+
+		// async and await version
+		try {
+			await signOut(auth)
+		} catch (error) {
+			setError(error)
+		} finally {
+			setLoading(false)
 		}
 	}
 
 	return (
 		<AuthContext.Provider
 			value={{
-				user: 'Andrew', // temporary data
+				user,
+				loading,
+				error,
 				signInWithGoogle,
+				logout,
 			}}
 		>
-			{children}
+			{!loadingInitial && children}
 		</AuthContext.Provider>
 	)
 }
