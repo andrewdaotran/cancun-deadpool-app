@@ -94,14 +94,20 @@ export const AuthProvider = ({ children }) => {
 		}
 	}
 
+	const memoedValue = useMemo(() => {
+		return {
+			user,
+			loading,
+			error,
+			signInWithGoogle,
+			logout,
+		}
+	}, [user, loading, error])
+
 	return (
 		<AuthContext.Provider
 			value={{
-				user,
-				loading,
-				error,
-				signInWithGoogle,
-				logout,
+				memoedValue,
 			}}
 		>
 			{!loadingInitial && children}
