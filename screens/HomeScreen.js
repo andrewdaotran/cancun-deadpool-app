@@ -1,16 +1,19 @@
-import { View, Text, Button } from 'react-native'
+import { View, Text, Button, Touchable, TouchableOpacity } from 'react-native'
 import React from 'react'
 import { useNavigation } from '@react-navigation/native'
+import ProfileCard from '../components/ProfileCard'
 
 const HomeScreen = () => {
 	const navigation = useNavigation()
 	return (
-		<View>
-			<Text>I am the home Screen</Text>
-			<Button
-				title='Go to Profile'
+		<View className=''>
+			<ProfileCard />
+			<TouchableOpacity
 				onPress={() => navigation.navigate('Profile')}
-			/>
+				className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'
+			>
+				<Text>Go to Profile</Text>
+			</TouchableOpacity>
 		</View>
 	)
 }
