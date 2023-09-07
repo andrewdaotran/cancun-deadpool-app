@@ -1,24 +1,21 @@
-import {
-	View,
-	Text,
-	Button,
-	Touchable,
-	TouchableOpacity,
-	ScrollView,
-} from 'react-native'
-import React from 'react'
+import { View, Text, TouchableOpacity, ScrollView } from 'react-native'
+import React, { useRef, useState } from 'react'
 import { useNavigation } from '@react-navigation/native'
 import ProfileCard from '../components/ProfileCard'
-import { users } from '../staticAppData'
+import { names, users } from '../staticAppData'
 
 const HomeScreen = () => {
 	const navigation = useNavigation()
 
 	return (
-		<View className='mx-10 mt-4 border border-red-500 align-center justify-center flex-grow'>
+		<View className='mx-10 mt-4  align-center justify-center flex-grow'>
 			<ScrollView>
 				{users.map((user) => {
-					return <ProfileCard user={user} key={user.id} />
+					return (
+						<>
+							<ProfileCard user={user} key={user.id} />
+						</>
+					)
 				})}
 			</ScrollView>
 			<TouchableOpacity
