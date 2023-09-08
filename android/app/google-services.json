@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "363456261395",
+    "project_id": "cancun-deadpool-app",
+    "storage_bucket": "cancun-deadpool-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:363456261395:android:b2b51b6cc366494f843ee6",
+        "android_client_info": {
+          "package_name": "com.wa2goose.cancundeadpoolapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "363456261395-c80cmh4cee4le08c7es4ibem8ud8i58t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD4kQ9NTFVKLTl3EPaWdScNB7bRbZxbff4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "363456261395-c80cmh4cee4le08c7es4ibem8ud8i58t.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "363456261395-ago1l3utunsbfn6qqkmdch78t678pi72.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.wa2goose.cancundeadpoolapp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

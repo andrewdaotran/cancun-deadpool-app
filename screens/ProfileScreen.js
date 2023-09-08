@@ -39,7 +39,12 @@ const ProfileScreen = () => {
 			<View className='bg-white  rounded-lg items-center justify-center mx-10 p-4 mt-4 '>
 				<Text className='text-center pb-4'>
 					How many shots/drinks will it take for{' '}
-					{dieFirst ? dieFirst : 'the first person'} to die?
+					{dieFirst ? (
+						<Text className='text-red-500'>{dieFirst}</Text>
+					) : (
+						'the first person'
+					)}{' '}
+					to die?
 				</Text>
 
 				<TextInput
@@ -62,7 +67,7 @@ const ProfileScreen = () => {
 							<View className='flex-row  w-full justify-center '>
 								{/* <Image source={user.image} className='h-full w-16 mr-8' /> */}
 								<View className=' '>
-									<Text className='text-center text-2xl font-bold '>
+									<Text className='text-center text-2xl font-bold  '>
 										{user.name}
 									</Text>
 									{/* <Text className='text-sm text-center text-gray-400'>
