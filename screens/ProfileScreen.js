@@ -3,14 +3,13 @@ import {
 	View,
 	Text,
 	TextInput,
-	Alert,
-	Button,
 	TouchableOpacity,
 	ScrollView,
+	Image,
 } from 'react-native'
-import React, { useRef, useState } from 'react'
+import React, { Fragment, useRef, useState } from 'react'
 import RNPickerSelect from 'react-native-picker-select'
-import { names } from '../staticAppData'
+import { names, users } from '../staticAppData'
 
 const ProfileScreen = () => {
 	const pickerRef = useRef(null)
@@ -20,14 +19,13 @@ const ProfileScreen = () => {
 	return (
 		<ScrollView className='mt-4'>
 			{/* Question 1 */}
-			<View className='bg-white border border-gray-400 rounded-lg items-center justify-center mx-10 py-4 '>
+			<View className='bg-white  rounded-lg items-center justify-center mx-10 p-4 '>
 				<Text className='text-center pb-4'>
 					Who do you think will die first?
 				</Text>
 				<View className='mx-auto'>
 					<RNPickerSelect
-						// style={pickerSelectStyles}
-						className='justify-center '
+						style={pickerSelectStyles}
 						placeholder={{ label: 'Select a name...', value: null }}
 						onValueChange={(value) => setDieFirst(value)}
 						items={names.map((name) => {
@@ -38,7 +36,7 @@ const ProfileScreen = () => {
 			</View>
 
 			{/* Question 2 need to fix to have keyboard popup and only allow numbers*/}
-			<View className='bg-white border border-gray-400 rounded-lg items-center justify-center mx-10 py-4 mt-4'>
+			<View className='bg-white  rounded-lg items-center justify-center mx-10 p-4 mt-4 '>
 				<Text className='text-center pb-4'>
 					How many shots/drinks will it take for{' '}
 					{dieFirst ? dieFirst : 'the first person'} to die?
@@ -55,47 +53,64 @@ const ProfileScreen = () => {
 				/>
 			</View>
 
-			{/* Question 3 need to map over and remove your own name*/}
-			<View className='bg-white border border-gray-400 rounded-lg items-center justify-center mx-10 py-4 mt-4'>
-				<Text className='text-center pb-4 text-2xl font-bold'>Andrew</Text>
-				<View className='bflex flex-row w-full justify-evenly items-center'>
-					<TouchableOpacity className='border border-black p-4 rounded-md bg-gray-300'>
-						<Text>Over</Text>
-					</TouchableOpacity>
-					<View className=''>
-						<Text className='text-center mb-1'>Shots/Drinks</Text>
-						<Text className='text-center text-2xl font-bold'>7.5</Text>
-					</View>
-					<TouchableOpacity className='p-4 border border-black rounded-md bg-gray-300'>
-						<Text>Under</Text>
-					</TouchableOpacity>
-				</View>
-			</View>
+			{/* Question 3 need to filter your own name*/}
+
+			{users.map((user) => {
+				return (
+					<Fragment key={user.id}>
+						<View className='bg-white  rounded-lg items-center justify-center mx-10 py-4 mt-4'>
+							<View className='flex-row  w-full justify-center '>
+								{/* <Image source={user.image} className='h-full w-16 mr-8' /> */}
+								<View className=' '>
+									<Text className='text-center text-2xl font-bold '>
+										{user.name}
+									</Text>
+									{/* <Text className='text-sm text-center text-gray-400'>
+										30 years old
+									</Text> */}
+								</View>
+							</View>
+							<View className='flex flex-row w-full justify-evenly items-center'>
+								<TouchableOpacity className=' p-4 rounded-md bg-gray-300'>
+									<Text>Over</Text>
+								</TouchableOpacity>
+								<View className=''>
+									<Text className='text-center mb-1'>Shots/Drinks</Text>
+									<Text className='text-center text-2xl font-bold'>
+										{String(user.overUnder)}
+									</Text>
+								</View>
+								<TouchableOpacity className='p-4  rounded-md bg-gray-300'>
+									<Text>Under</Text>
+								</TouchableOpacity>
+							</View>
+						</View>
+					</Fragment>
+				)
+			})}
 		</ScrollView>
 	)
 }
 
 export default ProfileScreen
 
-// const pickerSelectStyles = StyleSheet.create({
-// 	inputIOS: {
-// 		fontSize: 16,
-// 		paddingVertical: 12,
-// 		paddingHorizontal: 10,
-// 		borderWidth: 1,
-// 		borderColor: 'gray',
-// 		borderRadius: 4,
-// 		color: 'black',
-// 		paddingRight: 30,
-// 	},
-// 	inputAndroid: {
-// 		fontSize: 16,
-// 		paddingHorizontal: 10,
-// 		paddingVertical: 8,
-// 		borderWidth: 0.5,
-// 		borderColor: 'purple',
-// 		borderRadius: 8,
-// 		color: 'black',
-// 		paddingRight: 30,
-// 	},
-// })
+const pickerSelectStyles = StyleSheet.create({
+	inputIOS: {
+		paddingVertical: 8,
+		paddingHorizontal: 12,
+		borderWidth: 1,
+		borderColor: 'rgb(156 163 175)',
+		borderRadius: 8,
+		color: 'black',
+		// paddingRight: 30,
+	},
+	inputAndroid: {
+		paddingHorizontal: 8,
+		paddingVertical: 12,
+		borderWidth: 0.5,
+		borderColor: 'rgb(156 163 175)',
+		borderRadius: 8,
+		color: 'black',
+		// paddingRight: 30,
+	},
+})
