@@ -7,14 +7,38 @@ import {
 	ScrollView,
 	Image,
 } from 'react-native'
-import React, { Fragment, useRef, useState } from 'react'
+import React, { Fragment, useEffect, useRef, useState } from 'react'
 import RNPickerSelect from 'react-native-picker-select'
 import { names, users } from '../staticAppData'
+
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const ProfileScreen = () => {
 	const pickerRef = useRef(null)
 	const [dieFirst, setDieFirst] = useState('')
 	const [dieFirstShots, setDieFirstShots] = useState('')
+
+	const [userName, setUserName] = useState('')
+
+	const getUserFromStorage = async () => {
+		try {
+			const value = await AsyncStorage.getItem('@user')
+			if (value !== null) {
+				// value previously stored
+				setUserName(value)
+			}
+		} catch (e) {
+			// error reading value
+		}
+	}
+
+	useEffect(() => {
+		getUserFromStorage()
+	}, [])
+
+	const filterUser = () => {
+		return users.filter((user) => user.name === userName)
+	}
 
 	return (
 		<ScrollView className='mt-4'>
@@ -61,6 +85,7 @@ const ProfileScreen = () => {
 			{/* Question 3 need to filter your own name*/}
 
 			{users.map((user) => {
+				if (user.name === userName) return
 				return (
 					<Fragment key={user.id}>
 						<View className='bg-white  rounded-lg items-center justify-center mx-10 py-4 mt-4'>
