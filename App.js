@@ -1,12 +1,18 @@
 import { StyleSheet, Text, View } from 'react-native'
 import StackNavigator from './StackNavigator'
 import { NavigationContainer } from '@react-navigation/native'
+import { UserProvider } from './context/UserContext'
+import { ShowResultsProvider } from './context/ShowResultsContext'
 
 export default function App() {
 	return (
-		<NavigationContainer>
-			<StackNavigator />
-		</NavigationContainer>
+		<UserProvider>
+			<ShowResultsProvider>
+				<NavigationContainer>
+					<StackNavigator />
+				</NavigationContainer>
+			</ShowResultsProvider>
+		</UserProvider>
 	)
 }
 

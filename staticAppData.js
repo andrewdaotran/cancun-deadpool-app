@@ -67,5 +67,3 @@ export const questions = [
 		question: 'How many shots will ',
 	},
 ]
-
-export const names = users.map((user) => user.name)

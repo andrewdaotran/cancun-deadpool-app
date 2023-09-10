@@ -7,41 +7,44 @@ import {
 	ScrollView,
 	Image,
 } from 'react-native'
-import React, { Fragment, useEffect, useRef, useState } from 'react'
+import React, { Fragment, useEffect, useRef, useState, useContext } from 'react'
 import RNPickerSelect from 'react-native-picker-select'
-import { names, users } from '../staticAppData'
+import { users } from '../staticAppData'
 
-import AsyncStorage from '@react-native-async-storage/async-storage'
+import { names, filterUsers } from '../utils'
+
+import UserContext from '../context/UserContext'
+import ShowResultsContext from '../context/ShowResultsContext'
 
 const ProfileScreen = () => {
 	const pickerRef = useRef(null)
 	const [dieFirst, setDieFirst] = useState('')
 	const [dieFirstShots, setDieFirstShots] = useState('')
 
-	const [userName, setUserName] = useState('')
+	// const [userName, setUserName] = useState('')
 
-	const getUserFromStorage = async () => {
-		try {
-			const value = await AsyncStorage.getItem('@user')
-			if (value !== null) {
-				// value previously stored
-				setUserName(value)
-			}
-		} catch (e) {
-			// error reading value
-		}
-	}
+	const { getUserFromStorage, userData, filteredUsers } =
+		useContext(UserContext)
+
+	const { showResults, toggleShowResults } = useContext(ShowResultsContext)
 
 	useEffect(() => {
 		getUserFromStorage()
 	}, [])
 
-	const filterUser = () => {
-		return users.filter((user) => user.name === userName)
-	}
-
 	return (
 		<ScrollView className='mt-4'>
+			{/* Andrew Buton */}
+			{userData.name === 'Andrew' && (
+				<View className='bg-white  rounded-lg items-center justify-center mx-10 mb-4 '>
+					<TouchableOpacity onPress={toggleShowResults}>
+						<Text className='text-center pb-4'>
+							{showResults ? 'Hide Results' : 'Show Results'}
+						</Text>
+					</TouchableOpacity>
+				</View>
+			)}
+
 			{/* Question 1 */}
 			<View className='bg-white  rounded-lg items-center justify-center mx-10 p-4 '>
 				<Text className='text-center pb-4'>
@@ -84,8 +87,7 @@ const ProfileScreen = () => {
 
 			{/* Question 3 need to filter your own name*/}
 
-			{users.map((user) => {
-				if (user.name === userName) return
+			{filteredUsers.map((user) => {
 				return (
 					<Fragment key={user.id}>
 						<View className='bg-white  rounded-lg items-center justify-center mx-10 py-4 mt-4'>
