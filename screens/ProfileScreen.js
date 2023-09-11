@@ -14,7 +14,7 @@ import { users } from '../staticAppData'
 import { names, filterUsers } from '../utils'
 
 import UserContext from '../context/UserContext'
-import ShowResultsContext from '../context/ShowResultsContext'
+import AdminContext from '../context/AdminContext'
 
 const ProfileScreen = () => {
 	const pickerRef = useRef(null)
@@ -26,7 +26,7 @@ const ProfileScreen = () => {
 	const { getUserFromStorage, userData, filteredUsers } =
 		useContext(UserContext)
 
-	const { showResults, toggleShowResults } = useContext(ShowResultsContext)
+	const { showResults, toggleShowResults } = useContext(AdminContext)
 
 	useEffect(() => {
 		getUserFromStorage()

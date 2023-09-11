@@ -2,16 +2,16 @@ import { StyleSheet, Text, View } from 'react-native'
 import StackNavigator from './StackNavigator'
 import { NavigationContainer } from '@react-navigation/native'
 import { UserProvider } from './context/UserContext'
-import { ShowResultsProvider } from './context/ShowResultsContext'
+import { AdminProvider } from './context/AdminContext'
 
 export default function App() {
 	return (
 		<UserProvider>
-			<ShowResultsProvider>
+			<AdminProvider>
 				<NavigationContainer>
 					<StackNavigator />
 				</NavigationContainer>
-			</ShowResultsProvider>
+			</AdminProvider>
 		</UserProvider>
 	)
 }

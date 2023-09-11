@@ -5,6 +5,7 @@ import ProfileCard from '../components/ProfileCard'
 import { names, users } from '../staticAppData'
 import UserContext from '../context/UserContext'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import ResultsCard from '../components/ResultsCard'
 
 const HomeScreen = () => {
 	const navigation = useNavigation()
@@ -24,7 +25,7 @@ const HomeScreen = () => {
 	return isLoading ? (
 		<Text className='text-center text-2xl'> Loading...</Text>
 	) : (
-		<View className='mx-10 mt-4  align-center justify-center flex-grow'>
+		<ScrollView className='mx-10 mt-4  flex-grow'>
 			{/* Temp Button */}
 			<Button
 				title='Clear Storage'
@@ -40,7 +41,7 @@ const HomeScreen = () => {
 				Clear Storage
 			</Button>
 			{/* Temp Button */}
-			<ScrollView>
+			<ScrollView className=' '>
 				{userData.name ? (
 					<>
 						<ProfileCard user={userData} key={userData.id} />
@@ -56,13 +57,14 @@ const HomeScreen = () => {
 					})
 				)}
 			</ScrollView>
-			<TouchableOpacity
-				onPress={() => navigation.navigate('Profile')}
-				className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'
-			>
-				<Text>Go to Profile</Text>
-			</TouchableOpacity>
-		</View>
+			{users.map((user) => {
+				return (
+					<>
+						<ResultsCard user={user} key={user.id} />
+					</>
+				)
+			})}
+		</ScrollView>
 	)
 }
 

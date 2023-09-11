@@ -2,9 +2,9 @@ import { createContext, useState } from 'react'
 import { users } from '../staticAppData'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
-const ShowResultsContext = createContext()
+const AdminContext = createContext()
 
-export const ShowResultsProvider = ({ children }) => {
+export const AdminProvider = ({ children }) => {
 	const [showResults, setShowResults] = useState(false)
 
 	const toggleShowResults = () => {
@@ -12,10 +12,10 @@ export const ShowResultsProvider = ({ children }) => {
 	}
 
 	return (
-		<ShowResultsContext.Provider value={{ toggleShowResults, showResults }}>
+		<AdminContext.Provider value={{ toggleShowResults, showResults }}>
 			{children}
-		</ShowResultsContext.Provider>
+		</AdminContext.Provider>
 	)
 }
 
-export default ShowResultsContext
+export default AdminContext
