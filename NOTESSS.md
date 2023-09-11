@@ -8,6 +8,8 @@
 
 - allow for changes to people's over/unders
 
-  - push all data from staticAppData to database and pull as admin to allow for changes
+- push all data from staticAppData to database and pull as admin to allow for changes
 
 - Input correct answers
+
+- change all buttons to push data to database

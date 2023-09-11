@@ -17,16 +17,22 @@ import UserContext from '../context/UserContext'
 import AdminContext from '../context/AdminContext'
 
 const ProfileScreen = () => {
-	const pickerRef = useRef(null)
-	const [dieFirst, setDieFirst] = useState('')
-	const [dieFirstShots, setDieFirstShots] = useState('')
-
-	// const [userName, setUserName] = useState('')
-
 	const { getUserFromStorage, userData, filteredUsers } =
 		useContext(UserContext)
 
-	const { showResults, toggleShowResults } = useContext(AdminContext)
+	const [dieFirst, setDieFirst] = useState(userData.answerOne)
+	const [dieFirstShots, setDieFirstShots] = useState(userData.answerTwo)
+
+	// const [userName, setUserName] = useState('')
+
+	const {
+		showResults,
+		toggleShowResults,
+		allowClearStorage,
+		toggleAllowClearStorage,
+		disableAnswers,
+		toggleDisableAnswers,
+	} = useContext(AdminContext)
 
 	useEffect(() => {
 		getUserFromStorage()
@@ -34,14 +40,42 @@ const ProfileScreen = () => {
 
 	return (
 		<ScrollView className='mt-4'>
-			{/* Andrew Buton */}
+			{/* Andrew Admin Buttons */}
 			{userData.name === 'Andrew' && (
-				<View className='bg-white  rounded-lg items-center justify-center mx-10 mb-4 '>
-					<TouchableOpacity onPress={toggleShowResults}>
-						<Text className='text-center pb-4'>
+				<View className='flex flex-row w-full justify-evenly items-center flex-wrap'>
+					{/* Show Results */}
+					<TouchableOpacity
+						className=' p-4 rounded-md bg-gray-300'
+						onPress={toggleShowResults}
+					>
+						<Text className='text-center '>
 							{showResults ? 'Hide Results' : 'Show Results'}
 						</Text>
 					</TouchableOpacity>
+
+					{/* Show Results End */}
+					{/* Allow clear storage */}
+					<TouchableOpacity
+						className=' p-4 rounded-md bg-gray-300'
+						onPress={toggleAllowClearStorage}
+					>
+						<Text className='text-center '>
+							{allowClearStorage
+								? 'Turn Off Clear Storage'
+								: 'Turn On Clear Storage'}
+						</Text>
+					</TouchableOpacity>
+					{/* Allow clear storage end */}
+					{/* Disable Answers */}
+					<TouchableOpacity
+						className=' p-4 rounded-md bg-gray-300'
+						onPress={toggleDisableAnswers}
+					>
+						<Text className='text-center '>
+							{disableAnswers ? 'Allow Answers' : 'Disable Answers'}
+						</Text>
+					</TouchableOpacity>
+					{/* Disable Answers End*/}
 				</View>
 			)}
 
@@ -53,6 +87,7 @@ const ProfileScreen = () => {
 				<View className='mx-auto'>
 					<RNPickerSelect
 						style={pickerSelectStyles}
+						disabled={disableAnswers}
 						placeholder={{ label: 'Select a name...', value: null }}
 						onValueChange={(value) => setDieFirst(value)}
 						items={names.map((name) => {
@@ -82,6 +117,9 @@ const ProfileScreen = () => {
 						setDieFirstShots(e.target.value)
 					}}
 					keyboardType='numeric'
+					underlineColorAndroid='transparent'
+					editable={!disableAnswers}
+					selectTextOnFocus={!disableAnswers}
 				/>
 			</View>
 
@@ -103,7 +141,10 @@ const ProfileScreen = () => {
 								</View>
 							</View>
 							<View className='flex flex-row w-full justify-evenly items-center'>
-								<TouchableOpacity className=' p-4 rounded-md bg-gray-300'>
+								<TouchableOpacity
+									className=' p-4 rounded-md bg-gray-300'
+									disabled={disableAnswers}
+								>
 									<Text>Over</Text>
 								</TouchableOpacity>
 								<View className=''>
@@ -112,7 +153,10 @@ const ProfileScreen = () => {
 										{String(user.overUnder)}
 									</Text>
 								</View>
-								<TouchableOpacity className='p-4  rounded-md bg-gray-300'>
+								<TouchableOpacity
+									className='p-4  rounded-md bg-gray-300'
+									disabled={disableAnswers}
+								>
 									<Text>Under</Text>
 								</TouchableOpacity>
 							</View>

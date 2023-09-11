@@ -9,7 +9,6 @@ import { users } from '../staticAppData'
 const ResultsCard = ({ user }) => {
 	const navigation = useNavigation()
 
-	console.log(user)
 	// Pull data everyone pushed to database
 
 	return (
@@ -39,11 +38,10 @@ const ResultsCard = ({ user }) => {
 										}
 									})}
 								</Text>
-								// </View>
 							)
 						})}
 					</View>
-					<View className='w-[50%]'>
+					<View className='w-[50%] mb-4'>
 						{user.overUnderAnswers.map((answer, index) => {
 							if (index < 5) return
 							return (

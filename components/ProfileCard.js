@@ -20,6 +20,7 @@ const ProfileCard = ({ user }) => {
 
 	const clickProfileCard = () => {
 		storeUser(user.name)
+		// user.profileChosen = true through database
 		navigation.navigate('Profile')
 	}
 

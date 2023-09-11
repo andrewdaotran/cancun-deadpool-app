@@ -6,6 +6,7 @@ import { names, users } from '../staticAppData'
 import UserContext from '../context/UserContext'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import ResultsCard from '../components/ResultsCard'
+import AdminContext from '../context/AdminContext'
 
 const HomeScreen = () => {
 	const navigation = useNavigation()
@@ -13,6 +14,8 @@ const HomeScreen = () => {
 	const [isLoading, setIsLoading] = useState(false)
 
 	const { userData, getUserFromStorage } = useContext(UserContext)
+
+	const { showResults, allowClearStorage } = useContext(AdminContext)
 
 	useEffect(() => {
 		if (!userData.name) {
@@ -26,21 +29,25 @@ const HomeScreen = () => {
 		<Text className='text-center text-2xl'> Loading...</Text>
 	) : (
 		<ScrollView className='mx-10 mt-4  flex-grow'>
-			{/* Temp Button */}
-			<Button
-				title='Clear Storage'
-				onPress={async () => {
-					try {
-						await AsyncStorage.removeItem('@user')
-					} catch (e) {
-						// error reading value
-					}
-				}}
-			>
-				{' '}
-				Clear Storage
-			</Button>
-			{/* Temp Button */}
+			{/* Clear Storage Button */}
+			{allowClearStorage && (
+				<View className='flex flex-row w-full justify-evenly items-center flex-wrap mb-4'>
+					<TouchableOpacity
+						className=' p-4 rounded-md bg-gray-300'
+						onPress={async () => {
+							try {
+								await AsyncStorage.removeItem('@user')
+							} catch (e) {
+								// error reading value
+							}
+						}}
+					>
+						<Text className='text-center '>Choose another profile</Text>
+					</TouchableOpacity>
+				</View>
+			)}
+
+			{/* Clear Storage Button End*/}
 			<ScrollView className=' '>
 				{userData.name ? (
 					<>
@@ -51,19 +58,25 @@ const HomeScreen = () => {
 					users.map((user) => {
 						return (
 							<>
-								<ProfileCard user={user} key={user.id} />
+								{!user.profileChosen && (
+									<ProfileCard user={user} key={user.id} />
+								)}
 							</>
 						)
 					})
 				)}
 			</ScrollView>
-			{users.map((user) => {
-				return (
-					<>
-						<ResultsCard user={user} key={user.id} />
-					</>
-				)
-			})}
+			{/* Results  */}
+			{showResults &&
+				users.map((user) => {
+					return (
+						<>
+							<ResultsCard user={user} key={user.id} />
+						</>
+					)
+				})}
+
+			{/* Results End */}
 		</ScrollView>
 	)
 }
