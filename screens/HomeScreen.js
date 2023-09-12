@@ -20,7 +20,7 @@ const HomeScreen = () => {
 	useEffect(() => {
 		if (!userData.name) {
 			setIsLoading(true)
-			getUserFromStorage()
+			// getUserFromStorage()
 		}
 		setIsLoading(false)
 	}, [])
@@ -40,6 +40,7 @@ const HomeScreen = () => {
 							} catch (e) {
 								// error reading value
 							}
+							console.log(userData)
 						}}
 					>
 						<Text className='text-center '>Choose another profile</Text>
@@ -49,12 +50,16 @@ const HomeScreen = () => {
 
 			{/* Clear Storage Button End*/}
 			<ScrollView className=' '>
-				{userData.name ? (
+				<ProfileCard user={userData} key={userData.id} />
+				{userData.name && !showResults && (
 					<>
-						<ProfileCard user={userData} key={userData.id} />
-						<Text>Results pending... Come back later</Text>
+						<Text className='text-center mb-2'>Results pending...</Text>
+						<Text className='text-center'>
+							Keep drinking and come back later
+						</Text>
 					</>
-				) : (
+				)}
+				{!userData &&
 					users.map((user) => {
 						return (
 							<>
@@ -63,18 +68,24 @@ const HomeScreen = () => {
 								)}
 							</>
 						)
-					})
-				)}
+					})}
 			</ScrollView>
 			{/* Results  */}
-			{showResults &&
-				users.map((user) => {
-					return (
-						<>
-							<ResultsCard user={user} key={user.id} />
-						</>
-					)
-				})}
+			{showResults && (
+				<View className='mb-6'>
+					{/* Acutual Results */}
+					{/* Need to fix so we pull the data from database and show results */}
+					{/* <ResultsCard user={user} key={user.id} /> */}
+
+					{users.map((user) => {
+						return (
+							<>
+								<ResultsCard user={user} key={user.id} />
+							</>
+						)
+					})}
+				</View>
+			)}
 
 			{/* Results End */}
 		</ScrollView>

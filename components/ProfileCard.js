@@ -19,6 +19,8 @@ const ProfileCard = ({ user }) => {
 	}
 
 	const clickProfileCard = () => {
+		// Add if clicked Andrew and storage is empty, must type in password to access admin features
+		// logic here
 		storeUser(user.name)
 		// user.profileChosen = true through database
 		navigation.navigate('Profile')

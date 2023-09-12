@@ -1,6 +1,12 @@
-import { createContext, useState } from 'react'
-import { users } from '../staticAppData'
-import AsyncStorage from '@react-native-async-storage/async-storage'
+import { createContext, useEffect, useState } from 'react'
+import {
+	updateDoc,
+	doc,
+	onSnapshot,
+	addDoc,
+	collection,
+} from 'firebase/firestore'
+import { db } from '../firebaseConfig'
 
 const AdminContext = createContext()
 
@@ -8,20 +14,55 @@ export const AdminProvider = ({ children }) => {
 	const [showResults, setShowResults] = useState(false)
 	const [allowClearStorage, setAllowClearStorage] = useState(false)
 	const [disableAnswers, setDisableAnswers] = useState(false)
+	const [inputResults, setInputResults] = useState(false)
 
-	const toggleShowResults = () => {
+	const adminRef = doc(db, 'adminPowers', 'tVubad3DaeM2NI8EGZd7')
+
+	// useEffect(() => {
+	// 	const subscriber = onSnapshot(adminRef, (doc) => {
+	// 		setShowResults(doc.data().showResults)
+	// 		setAllowClearStorage(doc.data().allowClearStorage)
+	// 		setDisableAnswers(doc.data().disableAnswers)
+	// 		setInputResults(doc.data().inputResults)
+	// 	})
+	// 	return () => subscriber()
+	// }, [])
+
+	const toggleShowResults = async () => {
+		try {
+			await updateDoc(adminRef, {
+				showResults: !showResults,
+			})
+		} catch (error) {
+			console.log(error)
+		}
 		setShowResults(!showResults)
 	}
 
-	const toggleAllowClearStorage = () => {
+	const toggleAllowClearStorage = async () => {
+		try {
+			await updateDoc(adminRef, {
+				allowClearStorage: !allowClearStorage,
+			})
+		} catch (error) {
+			console.log(error)
+		}
 		setAllowClearStorage(!allowClearStorage)
-		// Must be done through database
-		// user.profileChosen = false through database
 	}
 
-	const toggleDisableAnswers = () => {
+	const toggleDisableAnswers = async () => {
+		try {
+			await updateDoc(adminRef, {
+				disableAnswers: !disableAnswers,
+			})
+		} catch (error) {
+			console.log(error)
+		}
 		setDisableAnswers(!disableAnswers)
-		// Must be done through database
+	}
+
+	const toggleInputResults = () => {
+		setInputResults(!inputResults)
 	}
 
 	return (
@@ -33,6 +74,8 @@ export const AdminProvider = ({ children }) => {
 				toggleAllowClearStorage,
 				disableAnswers,
 				toggleDisableAnswers,
+				inputResults,
+				toggleInputResults,
 			}}
 		>
 			{children}

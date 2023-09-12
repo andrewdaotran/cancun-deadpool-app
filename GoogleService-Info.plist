@@ -2,10 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>CLIENT_ID</key>
-	<string>363456261395-ago1l3utunsbfn6qqkmdch78t678pi72.apps.googleusercontent.com</string>
-	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.363456261395-ago1l3utunsbfn6qqkmdch78t678pi72</string>
 	<key>API_KEY</key>
 	<string>AIzaSyDbD3zFz2q5MX-rt2MkiYudiINw551MmUI</string>
 	<key>GCM_SENDER_ID</key>
@@ -13,7 +9,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.wa2goose.cancundeadpoolapp</string>
+	<string>host.exp.exponent</string>
 	<key>PROJECT_ID</key>
 	<string>cancun-deadpool-app</string>
 	<key>STORAGE_BUCKET</key>
@@ -29,6 +25,8 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:363456261395:ios:a886d7345959b756843ee6</string>
+	<string>1:363456261395:ios:70e3808abc2716f5843ee6</string>
+	<key>DATABASE_URL</key>
+	<string>https://cancun-deadpool-app-default-rtdb.firebaseio.com</string>
 </dict>
 </plist>
