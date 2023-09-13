@@ -17,7 +17,8 @@ import UserContext from '../context/UserContext'
 import AdminContext from '../context/AdminContext'
 
 const ProfileScreen = () => {
-	const { userData, selectAnswer } = useContext(UserContext)
+	const { userData, selectAnswer, selectOverUnderAnswer, allUsers } =
+		useContext(UserContext)
 
 	const [dieFirst, setDieFirst] = useState(userData.answerOne)
 	const [dieFirstShots, setDieFirstShots] = useState(userData.answerTwo)
@@ -95,6 +96,7 @@ const ProfileScreen = () => {
 					<RNPickerSelect
 						style={pickerSelectStyles}
 						disabled={disableAnswers}
+						value={dieFirst}
 						placeholder={{ label: 'Select a name...', value: null }}
 						onValueChange={(value) => {
 							selectAnswer('questionOne', value)
@@ -123,10 +125,9 @@ const ProfileScreen = () => {
 					className='border border-gray-400 w-fit py-2 px-4  text-center rounded-md'
 					placeholder='Enter a number...'
 					value={dieFirstShots}
-					onChange={(e) => {
-						// selectAnswer('questionTwo', e.target.value)
-						// setDieFirstShots(e.target.value)
-						// console.log(e.target.value)
+					onChangeText={(value) => {
+						selectAnswer('questionTwo', Number(value))
+						setDieFirstShots(Number(value))
 					}}
 					keyboardType='numeric'
 					underlineColorAndroid='transparent'
@@ -138,46 +139,67 @@ const ProfileScreen = () => {
 			{/* Question 3 need to filter your own name*/}
 
 			<View className='mb-8'>
-				{users.map((user) => {
-					if (user.name === userData.name && !inputResults) return null
-					return (
-						<Fragment key={user.id}>
-							<View className='bg-white  rounded-lg items-center justify-center mx-10 py-4  my-4 '>
-								<View className='flex-row  w-full justify-center '>
-									{/* <Image source={user.image} className='h-full w-16 mr-8' /> */}
-									<View className=' '>
-										<Text className='text-center text-2xl font-bold  '>
-											{user.name}
-										</Text>
-										{/* <Text className='text-sm text-center text-gray-400'>
+				{allUsers
+					// sorted by name
+					.sort((a, b) => {
+						const nameA = a.name.toUpperCase() // ignore upper and lowercase
+						const nameB = b.name.toUpperCase() // ignore upper and lowercase
+						if (nameA < nameB) {
+							return -1
+						}
+						if (nameA > nameB) {
+							return 1
+						}
+
+						// names must be equal
+						return 0
+					})
+					.map((user) => {
+						if (user.name === userData.name && !inputResults) return null
+						return (
+							<Fragment key={user.id}>
+								<View className='bg-white  rounded-lg items-center justify-center mx-10 py-4  my-4 '>
+									<View className='flex-row  w-full justify-center '>
+										{/* <Image source={user.image} className='h-full w-16 mr-8' /> */}
+										<View className=' '>
+											<Text className='text-center text-2xl font-bold  '>
+												{user.name}
+											</Text>
+											{/* <Text className='text-sm text-center text-gray-400'>
 										30 years old
 									</Text> */}
+										</View>
+									</View>
+									<View className='flex flex-row w-full justify-evenly items-center'>
+										<TouchableOpacity
+											className=' p-4 rounded-md bg-gray-300'
+											disabled={disableAnswers}
+											// onPress={() => {
+											// 	selectOverUnderAnswer(user.name, 'Over')
+											// }}
+										>
+											<Text>Over</Text>
+										</TouchableOpacity>
+										<View className=''>
+											<Text className='text-center mb-1'>Shots/Drinks</Text>
+											<Text className='text-center text-2xl font-bold'>
+												{String(user.overUnder)}
+											</Text>
+										</View>
+										<TouchableOpacity
+											className='p-4  rounded-md bg-gray-300'
+											disabled={disableAnswers}
+											// onPress={() => {
+											// 	selectOverUnderAnswer(user.name, 'Under')
+											// }}
+										>
+											<Text>Under</Text>
+										</TouchableOpacity>
 									</View>
 								</View>
-								<View className='flex flex-row w-full justify-evenly items-center'>
-									<TouchableOpacity
-										className=' p-4 rounded-md bg-gray-300'
-										disabled={disableAnswers}
-									>
-										<Text>Over</Text>
-									</TouchableOpacity>
-									<View className=''>
-										<Text className='text-center mb-1'>Shots/Drinks</Text>
-										<Text className='text-center text-2xl font-bold'>
-											{String(user.overUnder)}
-										</Text>
-									</View>
-									<TouchableOpacity
-										className='p-4  rounded-md bg-gray-300'
-										disabled={disableAnswers}
-									>
-										<Text>Under</Text>
-									</TouchableOpacity>
-								</View>
-							</View>
-						</Fragment>
-					)
-				})}
+							</Fragment>
+						)
+					})}
 			</View>
 		</ScrollView>
 	)

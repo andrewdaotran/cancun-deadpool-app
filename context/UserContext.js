@@ -18,10 +18,16 @@ export const UserProvider = ({ children }) => {
 	const [allUsers, setAllUsers] = useState([])
 
 	const addUserToContext = async (name) => {
+		await AsyncStorage.setItem('@user', name)
+
 		const subscriber = onSnapshot(userDataRef, (doc) => {
 			doc.forEach((user) => {
 				if (user.data().name === name) {
-					setUserData({ docId: user.id, ...user.data() })
+					setUserData({
+						docId: user.id,
+						// answerTwo: Number(user.answerTwo),
+						...user.data(),
+					})
 				}
 			})
 		})
@@ -32,6 +38,7 @@ export const UserProvider = ({ children }) => {
 		try {
 			const value = await AsyncStorage.getItem('@user')
 			if (value !== null) {
+				// console.log('USER CONTEXT', value)
 				addUserToContext(value)
 			}
 		} catch (e) {
@@ -41,10 +48,13 @@ export const UserProvider = ({ children }) => {
 
 	const resetStorage = async () => {
 		try {
+			// const stuff = await AsyncStorage.getItem('@user')
+			// console.log(stuff)
 			await AsyncStorage.removeItem('@user')
 			await updateDoc(doc(db, 'users', userData.docId), {
 				profileChosen: false,
 			})
+
 			setUserData({})
 		} catch (e) {
 			// error reading value
@@ -56,7 +66,11 @@ export const UserProvider = ({ children }) => {
 			let userList = []
 
 			doc.forEach((user) => {
-				return userList.push({ docId: user.id, ...user.data() })
+				return userList.push({
+					docId: user.id,
+					answerTwo: Number(user.answerTwo),
+					...user.data(),
+				})
 			})
 
 			setAllUsers(userList)
@@ -80,10 +94,32 @@ export const UserProvider = ({ children }) => {
 		}
 	}
 
+	const selectOverUnderAnswer = async (name, answer) => {
+		// try {
+		// 	// overUnderAnswers: [...userData.overUnderAnswers],
+		// 	await updateDoc(doc(db, 'users', userData.docId), {
+		// 		overUnderAnswers: userData.overUnderAnswers.map((user) => {
+		// 			if (user.name === name) {
+		// 				return {
+		// 					...user,
+		// 					answer,
+		// 				}
+		// 			}
+		// 			return user
+		// 		}),
+		// 		// overUnderAnswers: [...userData.overUnderAnswers],
+		// 	})
+		// 	console.log()
+		// } catch (error) {
+		// 	console.log(error)
+		// }
+	}
+
 	useEffect(() => {
 		getAllUsers()
 		getUserFromStorage()
-	}, [userData])
+	}, [])
+	// }, [userData])
 
 	return (
 		<UserContext.Provider
@@ -93,6 +129,7 @@ export const UserProvider = ({ children }) => {
 				addUserToContext,
 				resetStorage,
 				selectAnswer,
+				selectOverUnderAnswer,
 			}}
 		>
 			{children}
