@@ -17,7 +17,7 @@ import UserContext from '../context/UserContext'
 import AdminContext from '../context/AdminContext'
 
 const ProfileScreen = () => {
-	const { userData, filteredUsers } = useContext(UserContext)
+	const { userData, selectAnswer } = useContext(UserContext)
 
 	const [dieFirst, setDieFirst] = useState(userData.answerOne)
 	const [dieFirstShots, setDieFirstShots] = useState(userData.answerTwo)
@@ -96,7 +96,10 @@ const ProfileScreen = () => {
 						style={pickerSelectStyles}
 						disabled={disableAnswers}
 						placeholder={{ label: 'Select a name...', value: null }}
-						onValueChange={(value) => setDieFirst(value)}
+						onValueChange={(value) => {
+							selectAnswer('questionOne', value)
+							setDieFirst(value)
+						}}
 						items={names.map((name) => {
 							return { label: name, value: name }
 						})}
@@ -121,7 +124,9 @@ const ProfileScreen = () => {
 					placeholder='Enter a number...'
 					value={dieFirstShots}
 					onChange={(e) => {
-						setDieFirstShots(e.target.value)
+						// selectAnswer('questionTwo', e.target.value)
+						// setDieFirstShots(e.target.value)
+						// console.log(e.target.value)
 					}}
 					keyboardType='numeric'
 					underlineColorAndroid='transparent'
@@ -132,7 +137,6 @@ const ProfileScreen = () => {
 
 			{/* Question 3 need to filter your own name*/}
 
-			{/* {filteredUsers.map((user) => { */}
 			<View className='mb-8'>
 				{users.map((user) => {
 					if (user.name === userData.name && !inputResults) return null

@@ -33,18 +33,9 @@ const ProfileCard = ({ user }) => {
 		navigation.navigate('Profile')
 		if (userData.name) return
 
-		// const person1 = (await getDocs(collection(db, 'users'))).forEach(
-		// 	(person) => {
-		// 		if (person.data().name !== userData.name) return
-
-		// 		return person.data()
-		// 	}
-		// )
 		addUserToContext(user.name)
 
-		// console.log('PERSON ONE', person1)
-
-		// updateDoc(doc(db, 'users', user.id), { profileChosen: true })
+		await updateDoc(doc(db, 'users', user.docId), { profileChosen: true })
 	}
 
 	return (

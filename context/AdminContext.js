@@ -40,11 +40,6 @@ export const AdminProvider = ({ children }) => {
 	}
 
 	const toggleAllowClearStorage = async (boolObj) => {
-		if (boolObj) {
-			setAllowClearStorage(boolObj.bool)
-			return
-		}
-
 		try {
 			await updateDoc(adminRef, {
 				allowClearStorage: !allowClearStorage,

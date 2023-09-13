@@ -7,13 +7,16 @@ import UserContext from '../context/UserContext'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import ResultsCard from '../components/ResultsCard'
 import AdminContext from '../context/AdminContext'
+import { doc, updateDoc } from 'firebase/firestore'
+import { db } from '../firebaseConfig'
 
 const HomeScreen = () => {
 	const navigation = useNavigation()
 
 	const [isLoading, setIsLoading] = useState(false)
 
-	const { userData, getUserFromStorage, allUsers } = useContext(UserContext)
+	const { userData, getUserFromStorage, allUsers, resetStorage } =
+		useContext(UserContext)
 
 	const { showResults, allowClearStorage } = useContext(AdminContext)
 
@@ -34,13 +37,7 @@ const HomeScreen = () => {
 				<View className='flex flex-row w-full justify-evenly items-center flex-wrap mb-4'>
 					<TouchableOpacity
 						className=' p-4 rounded-md bg-gray-300'
-						onPress={async () => {
-							try {
-								await AsyncStorage.removeItem('@user')
-							} catch (e) {
-								// error reading value
-							}
-						}}
+						onPress={resetStorage}
 					>
 						<Text className='text-center '>Choose another profile</Text>
 					</TouchableOpacity>
@@ -68,11 +65,7 @@ const HomeScreen = () => {
 						})
 						.map((user) => {
 							return (
-								<>
-									{!user.profileChosen && (
-										<ProfileCard user={user} key={user.id} />
-									)}
-								</>
+								!user.profileChosen && <ProfileCard user={user} key={user.id} />
 							)
 						})}
 
