@@ -13,7 +13,7 @@ const HomeScreen = () => {
 
 	const [isLoading, setIsLoading] = useState(false)
 
-	const { userData, getUserFromStorage } = useContext(UserContext)
+	const { userData, getUserFromStorage, allUsers } = useContext(UserContext)
 
 	const { showResults, allowClearStorage } = useContext(AdminContext)
 
@@ -40,7 +40,6 @@ const HomeScreen = () => {
 							} catch (e) {
 								// error reading value
 							}
-							console.log(userData)
 						}}
 					>
 						<Text className='text-center '>Choose another profile</Text>
@@ -49,8 +48,34 @@ const HomeScreen = () => {
 			)}
 
 			{/* Clear Storage Button End*/}
+			{userData.name && <ProfileCard user={userData} key={userData.id} />}
 			<ScrollView className=' '>
-				<ProfileCard user={userData} key={userData.id} />
+				{!userData.name &&
+					allUsers
+						// sorted by name
+						.sort((a, b) => {
+							const nameA = a.name.toUpperCase() // ignore upper and lowercase
+							const nameB = b.name.toUpperCase() // ignore upper and lowercase
+							if (nameA < nameB) {
+								return -1
+							}
+							if (nameA > nameB) {
+								return 1
+							}
+
+							// names must be equal
+							return 0
+						})
+						.map((user) => {
+							return (
+								<>
+									{!user.profileChosen && (
+										<ProfileCard user={user} key={user.id} />
+									)}
+								</>
+							)
+						})}
+
 				{userData.name && !showResults && (
 					<>
 						<Text className='text-center mb-2'>Results pending...</Text>
@@ -59,16 +84,6 @@ const HomeScreen = () => {
 						</Text>
 					</>
 				)}
-				{!userData &&
-					users.map((user) => {
-						return (
-							<>
-								{!user.profileChosen && (
-									<ProfileCard user={user} key={user.id} />
-								)}
-							</>
-						)
-					})}
 			</ScrollView>
 			{/* Results  */}
 			{showResults && (
@@ -78,11 +93,7 @@ const HomeScreen = () => {
 					{/* <ResultsCard user={user} key={user.id} /> */}
 
 					{users.map((user) => {
-						return (
-							<>
-								<ResultsCard user={user} key={user.id} />
-							</>
-						)
+						return <ResultsCard user={user} key={user.id} />
 					})}
 				</View>
 			)}

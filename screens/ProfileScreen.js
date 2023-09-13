@@ -33,10 +33,6 @@ const ProfileScreen = () => {
 		toggleInputResults,
 	} = useContext(AdminContext)
 
-	// useEffect(() => {
-	// 	getUserFromStorage()
-	// }, [])
-
 	return (
 		<ScrollView className='mt-4'>
 			{/* Andrew Admin Buttons */}

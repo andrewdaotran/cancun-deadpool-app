@@ -1,36 +1,57 @@
 import { View, Text, TouchableOpacity, Image } from 'react-native'
 
-import React from 'react'
+import React, { useContext } from 'react'
 import { useNavigation } from '@react-navigation/native'
 
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
+import { users } from '../staticAppData'
+import UserContext from '../context/UserContext'
+import { collection, doc, getDoc, getDocs, updateDoc } from 'firebase/firestore'
+import { db } from '../firebaseConfig'
+
 const ProfileCard = ({ user }) => {
 	const navigation = useNavigation()
 
-	const storeUser = async (value) => {
-		try {
-			// const jsonValue = JSON.stringify(value)
-			// await AsyncStorage.setItem( '@user', jsonValue )
-			await AsyncStorage.setItem('@user', value)
-		} catch (e) {
-			// saving error
-		}
-	}
+	const { userData, addUserToContext } = useContext(UserContext)
 
-	const clickProfileCard = () => {
+	const retrieveUserImage = () => {
+		if (userData.name)
+			return users.filter(
+				(filteredUser) => filteredUser.name === userData.name
+			)[0].image
+
+		return users.filter((filteredUser) => filteredUser.name === user.name)[0]
+			.image
+	}
+	// console.log('PROFILE CARD', user)
+
+	const clickProfileCard = async () => {
 		// Add if clicked Andrew and storage is empty, must type in password to access admin features
 		// logic here
-		storeUser(user.name)
 		// user.profileChosen = true through database
 		navigation.navigate('Profile')
+		if (userData.name) return
+
+		// const person1 = (await getDocs(collection(db, 'users'))).forEach(
+		// 	(person) => {
+		// 		if (person.data().name !== userData.name) return
+
+		// 		return person.data()
+		// 	}
+		// )
+		addUserToContext(user.name)
+
+		// console.log('PERSON ONE', person1)
+
+		// updateDoc(doc(db, 'users', user.id), { profileChosen: true })
 	}
 
 	return (
 		<View className='bg-gray-300 align-center mb-4 rounded-md p-4 '>
 			<TouchableOpacity onPress={clickProfileCard}>
 				<Text className='text-center text-lg'>{user.name}</Text>
-				<Image className='w-60 h-60  mx-auto' source={user.image} />
+				<Image className='w-60 h-60  mx-auto' source={retrieveUserImage()} />
 			</TouchableOpacity>
 		</View>
 	)

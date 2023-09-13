@@ -30,7 +30,7 @@ const ResultsCard = ({ user }) => {
 						{user.overUnderAnswers.map((answer, index) => {
 							if (index > 4) return
 							return (
-								<Text className='mb-1'>
+								<Text className='mb-1' key={index}>
 									{answer.name}: {answer.answer ? 'Over' : 'Under'}{' '}
 									{users.map((user) => {
 										if (user.name === answer.name) {
@@ -45,7 +45,7 @@ const ResultsCard = ({ user }) => {
 						{user.overUnderAnswers.map((answer, index) => {
 							if (index < 5) return
 							return (
-								<Text className='mb-1'>
+								<Text className='mb-1' key={index}>
 									{answer.name}: {answer.answer ? 'Over' : 'Under'}{' '}
 									{users.map((user) => {
 										if (user.name === answer.name) {
