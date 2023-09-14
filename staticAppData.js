@@ -4,7 +4,7 @@ export const users = [
 	{
 		name: 'Andrew',
 		id: '1',
-		image: require('./assets/drunk-images/Brandon-1.png'),
+		image: require('./assets/drunk-images/Andrew.png'),
 		profileChosen: false,
 		overUnder: 7.5,
 		answerOne: '',
@@ -104,7 +104,7 @@ export const users = [
 	{
 		name: 'Joseph',
 		id: '10',
-		image: require('./assets/drunk-images/Brandon-1.png'),
+		image: require('./assets/drunk-images/Joseph.png'),
 		profileChosen: false,
 		overUnder: 5.5,
 		answerOne: '',
@@ -124,7 +124,7 @@ export const users = [
 	{
 		name: 'Naren',
 		id: '6',
-		image: require('./assets/drunk-images/Brandon-1.png'),
+		image: require('./assets/drunk-images/Naren.png'),
 		profileChosen: false,
 		overUnder: 5,
 		answerOne: '',
@@ -184,7 +184,7 @@ export const users = [
 	{
 		name: 'Robert',
 		id: '9',
-		image: require('./assets/drunk-images/Brandon-1.png'),
+		image: require('./assets/drunk-images/Robert.png'),
 		profileChosen: false,
 		overUnder: 5.5,
 		answerOne: '',

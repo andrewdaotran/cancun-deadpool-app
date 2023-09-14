@@ -1,14 +1,17 @@
 import { StyleSheet, Text, View } from 'react-native'
 import StackNavigator from './StackNavigator'
-import { NavigationContainer } from '@react-navigation/native'
+import { NavigationContainer, DefaultTheme } from '@react-navigation/native'
 import { UserProvider } from './context/UserContext'
 import { AdminProvider } from './context/AdminContext'
 
 export default function App() {
+	const navTheme = DefaultTheme
+	navTheme.colors.background = '#111827'
+
 	return (
 		<UserProvider>
 			<AdminProvider>
-				<NavigationContainer>
+				<NavigationContainer theme={navTheme}>
 					<StackNavigator />
 				</NavigationContainer>
 			</AdminProvider>

@@ -7,7 +7,7 @@ import UserContext from '../context/UserContext'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import ResultsCard from '../components/ResultsCard'
 import AdminContext from '../context/AdminContext'
-import { doc, updateDoc } from 'firebase/firestore'
+import { addDoc, collection, doc, updateDoc } from 'firebase/firestore'
 import { db } from '../firebaseConfig'
 
 const HomeScreen = () => {
@@ -71,8 +71,10 @@ const HomeScreen = () => {
 
 				{userData.name && !showResults && (
 					<>
-						<Text className='text-center mb-2'>Results pending...</Text>
-						<Text className='text-center'>
+						<Text className='text-center text-white mb-2 text-2xl'>
+							Results pending...
+						</Text>
+						<Text className='text-center text-white text-xl'>
 							Keep drinking and come back later
 						</Text>
 					</>

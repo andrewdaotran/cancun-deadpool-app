@@ -39,9 +39,11 @@ const ProfileCard = ({ user }) => {
 	}
 
 	return (
-		<View className='bg-gray-300 align-center mb-4 rounded-md p-4 '>
+		<View className='bg-gray-600 align-center mb-4 rounded-md p-4 '>
 			<TouchableOpacity onPress={clickProfileCard}>
-				<Text className='text-center text-lg'>{user.name}</Text>
+				<Text className='text-center text-lg text-white font-semibold'>
+					{user.name}
+				</Text>
 				<Image className='w-60 h-60  mx-auto' source={retrieveUserImage()} />
 			</TouchableOpacity>
 		</View>

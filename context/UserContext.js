@@ -14,8 +14,30 @@ const UserContext = createContext()
 
 export const UserProvider = ({ children }) => {
 	const userDataRef = collection(db, 'users')
+	const resultsRef = collection(db, 'results')
 	const [userData, setUserData] = useState({})
 	const [allUsers, setAllUsers] = useState([])
+	const [results, setResults] = useState({})
+
+	const updateUserDatabase = async () => {
+		try {
+			await updateDoc(doc(db, 'users', userData.docId), {
+				...userData,
+			})
+		} catch (error) {
+			console.log(error)
+		}
+	}
+
+	const updateResultsDatabase = async () => {
+		try {
+			await updateDoc(doc(db, 'results', 'zPvDSkgdPoR9CGXG0YsO'), {
+				...results,
+			})
+		} catch (error) {
+			console.log(error)
+		}
+	}
 
 	const addUserToContext = async (name) => {
 		await AsyncStorage.setItem('@user', name)
@@ -31,6 +53,19 @@ export const UserProvider = ({ children }) => {
 				}
 			})
 		})
+		return () => subscriber()
+	}
+
+	const addResultsToContext = async () => {
+		const subscriber = onSnapshot(resultsRef, (doc) => {
+			doc.forEach((item) => {
+				setResults({
+					// docId: doc.id,
+					...item.data(),
+				})
+			})
+		})
+		// console.log('RESULTS CONTEXT', results)
 		return () => subscriber()
 	}
 
@@ -58,6 +93,7 @@ export const UserProvider = ({ children }) => {
 			setUserData({})
 		} catch (e) {
 			// error reading value
+			console.log('usercontext reset storage', e)
 		}
 	}
 
@@ -80,46 +116,63 @@ export const UserProvider = ({ children }) => {
 	}
 
 	const selectAnswer = async (question, answer) => {
-		try {
-			if (question === 'questionOne')
-				await updateDoc(doc(db, 'users', userData.docId), {
-					answerOne: answer,
-				})
-			if (question === 'questionTwo')
-				await updateDoc(doc(db, 'users', userData.docId), {
-					answerTwo: answer,
-				})
-		} catch (error) {
-			console.log(error)
-		}
+		setUserData({
+			...userData,
+			[question]: answer,
+		})
 	}
 
 	const selectOverUnderAnswer = async (name, answer) => {
-		// try {
-		// 	// overUnderAnswers: [...userData.overUnderAnswers],
-		// 	await updateDoc(doc(db, 'users', userData.docId), {
-		// 		overUnderAnswers: userData.overUnderAnswers.map((user) => {
-		// 			if (user.name === name) {
-		// 				return {
-		// 					...user,
-		// 					answer,
-		// 				}
-		// 			}
-		// 			return user
-		// 		}),
-		// 		// overUnderAnswers: [...userData.overUnderAnswers],
-		// 	})
-		// 	console.log()
-		// } catch (error) {
-		// 	console.log(error)
-		// }
+		setUserData({
+			...userData,
+			overUnderAnswers: userData.overUnderAnswers.map((user) => {
+				if (user.name === name) {
+					return {
+						...user,
+						answer,
+					}
+				}
+				return user
+			}),
+		})
+	}
+
+	const andrewInputAnswers = async (question, answer) => {
+		setResults({
+			...results,
+			[question]: answer,
+		})
+	}
+
+	const andrewInputOverUnderAnswer = async (name, answer) => {
+		setResults({
+			...results,
+			overUnderAnswers: results.overUnderAnswers.map((user) => {
+				if (user.name === name) {
+					return {
+						...user,
+						answer,
+					}
+				}
+				return user
+			}),
+		})
 	}
 
 	useEffect(() => {
 		getAllUsers()
 		getUserFromStorage()
+		addResultsToContext()
 	}, [])
 	// }, [userData])
+
+	useEffect(() => {
+		updateUserDatabase()
+	}, [userData])
+
+	useEffect(() => {
+		updateResultsDatabase()
+	}, [results])
 
 	return (
 		<UserContext.Provider
@@ -130,6 +183,11 @@ export const UserProvider = ({ children }) => {
 				resetStorage,
 				selectAnswer,
 				selectOverUnderAnswer,
+				updateUserDatabase,
+				updateResultsDatabase,
+				results,
+				andrewInputAnswers,
+				andrewInputOverUnderAnswer,
 			}}
 		>
 			{children}

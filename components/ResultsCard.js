@@ -12,26 +12,33 @@ const ResultsCard = ({ user }) => {
 	// Pull data everyone pushed to database
 
 	return (
-		<View className='bg-gray-300 align-center mb-4 rounded-md p-4 '>
-			<Text className='text-center text-lg mb-2'>{user.name}</Text>
+		<View className='bg-gray-600 align-center mb-4 rounded-md p-4 text-white'>
+			<Text className='text-center text-lg mb-2 text-white font-bold'>
+				{user.name}
+			</Text>
 			<View className=''>
 				{/* if the answer matches the name then green, if not then red */}
 				<View className='flex-row  mb-2'>
-					<Text className='w-[50%]'>
-						Dead First: {user.answerOne ? user.answerOne : 'No one'}
+					<Text className='w-[50%] text-white'>
+						<Text className='font-semibold'>Dead First:</Text>{' '}
+						{user.answerOne ? user.answerOne : 'No one'}
 					</Text>
-					<Text className='w-[50%]'>
-						Drinks: {user.answerTwo ? String(user.answerTwo) : '0'}
+					<Text className='w-[50%] text-white'>
+						<Text className='font-semibold'>Drinks:</Text>{' '}
+						{user.answerTwo ? String(user.answerTwo) : '0'}
 					</Text>
 				</View>
-				<Text className='text-center mb-2 text-lg'>Over Unders</Text>
+				<Text className='text-center mb-2 text-lg text-white font-bold'>
+					Over Unders
+				</Text>
 				<View className=' flex-row'>
-					<View className='w-[50%]'>
+					<View className='w-[50%] '>
 						{user.overUnderAnswers.map((answer, index) => {
 							if (index > 4) return
 							return (
-								<Text className='mb-1' key={index}>
-									{answer.name}: {answer.answer ? 'Over' : 'Under'}{' '}
+								<Text className='mb-1 text-white' key={index}>
+									<Text className='font-semibold'>{answer.name}:</Text>{' '}
+									{answer.answer ? 'Over' : 'Under'}{' '}
 									{users.map((user) => {
 										if (user.name === answer.name) {
 											return user.overUnder
@@ -45,8 +52,9 @@ const ResultsCard = ({ user }) => {
 						{user.overUnderAnswers.map((answer, index) => {
 							if (index < 5) return
 							return (
-								<Text className='mb-1' key={index}>
-									{answer.name}: {answer.answer ? 'Over' : 'Under'}{' '}
+								<Text className='mb-1 text-white' key={index}>
+									<Text className='font-semibold'>{answer.name}:</Text>{' '}
+									{answer.answer ? 'Over' : 'Under'}{' '}
 									{users.map((user) => {
 										if (user.name === answer.name) {
 											return user.overUnder
