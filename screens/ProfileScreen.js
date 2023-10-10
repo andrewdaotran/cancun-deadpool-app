@@ -7,7 +7,7 @@ import {
 	ScrollView,
 	Image,
 } from 'react-native'
-import React, { Fragment, useEffect, useRef, useState, useContext } from 'react'
+import React, { useEffect, useRef, useState, useContext } from 'react'
 import RNPickerSelect from 'react-native-picker-select'
 import { FontAwesome } from '@expo/vector-icons'
 
@@ -175,52 +175,53 @@ const ProfileScreen = () => {
 						if (user.name === userData.name && !inputResults) return null
 
 						return (
-							<Fragment key={user.id}>
-								<View className=' rounded-lg items-center justify-center mx-10 py-4  my-4   bg-gray-600'>
-									<View className='flex-row  w-full justify-center '>
-										<View className=' '>
-											<Text className='text-center text-2xl font-bold text-white '>
-												{user.name}
-											</Text>
-										</View>
-									</View>
-									<View className='flex flex-row w-full justify-evenly items-center'>
-										<TouchableOpacity
-											className={`p-4  rounded-md bg-gray-300 ${
-												user.answer === 'Over' && 'bg-blue-400'
-											}`}
-											disabled={disableAnswers}
-											onPress={() => {
-												selectOverUnderAnswer(user.name, 'Over')
-											}}
-										>
-											<FontAwesome name='arrow-up' size={24} color='black' />
-										</TouchableOpacity>
-										<View className=''>
-											<Text className='text-center mb-1 text-white'>
-												Shots/Drinks
-											</Text>
-											<Text className='text-center text-2xl font-bold text-white'>
-												{String(
-													allUsers.filter((u) => u.name === user.name)[0]
-														.overUnder
-												)}
-											</Text>
-										</View>
-										<TouchableOpacity
-											className={`p-4  rounded-md bg-gray-300 ${
-												user.answer === 'Under' && 'bg-blue-400'
-											}`}
-											disabled={disableAnswers}
-											onPress={() => {
-												selectOverUnderAnswer(user.name, 'Under')
-											}}
-										>
-											<FontAwesome name='arrow-down' size={24} color='black' />
-										</TouchableOpacity>
+							<View
+								className=' rounded-lg items-center justify-center mx-10 py-4  my-4   bg-gray-600'
+								key={user.name}
+							>
+								<View className='flex-row  w-full justify-center '>
+									<View className=' '>
+										<Text className='text-center text-2xl font-bold text-white '>
+											{user.name}
+										</Text>
 									</View>
 								</View>
-							</Fragment>
+								<View className='flex flex-row w-full justify-evenly items-center'>
+									<TouchableOpacity
+										className={`p-4  rounded-md bg-gray-300 ${
+											user.answer === 'Over' && 'bg-blue-400'
+										}`}
+										disabled={disableAnswers}
+										onPress={() => {
+											selectOverUnderAnswer(user.name, 'Over')
+										}}
+									>
+										<FontAwesome name='arrow-up' size={24} color='black' />
+									</TouchableOpacity>
+									<View className=''>
+										<Text className='text-center mb-1 text-white'>
+											Shots/Drinks
+										</Text>
+										<Text className='text-center text-2xl font-bold text-white'>
+											{String(
+												allUsers.filter((u) => u.name === user.name)[0]
+													.overUnder
+											)}
+										</Text>
+									</View>
+									<TouchableOpacity
+										className={`p-4  rounded-md bg-gray-300 ${
+											user.answer === 'Under' && 'bg-blue-400'
+										}`}
+										disabled={disableAnswers}
+										onPress={() => {
+											selectOverUnderAnswer(user.name, 'Under')
+										}}
+									>
+										<FontAwesome name='arrow-down' size={24} color='black' />
+									</TouchableOpacity>
+								</View>
+							</View>
 						)
 					})}
 				{inputResults &&
@@ -228,52 +229,53 @@ const ProfileScreen = () => {
 						if (user.name === userData.name && !inputResults) return null
 
 						return (
-							<Fragment key={user.id}>
-								<View className=' rounded-lg items-center justify-center mx-10 py-4  my-4   bg-gray-600'>
-									<View className='flex-row  w-full justify-center '>
-										<View className=' '>
-											<Text className='text-center text-2xl font-bold text-white '>
-												{user.name}
-											</Text>
-										</View>
-									</View>
-									<View className='flex flex-row w-full justify-evenly items-center'>
-										<TouchableOpacity
-											className={`p-4  rounded-md bg-gray-300 ${
-												user.answer === 'Over' && 'bg-blue-400'
-											}`}
-											disabled={disableAnswers}
-											onPress={() => {
-												andrewInputOverUnderAnswer(user.name, 'Over')
-											}}
-										>
-											<FontAwesome name='arrow-up' size={24} color='black' />
-										</TouchableOpacity>
-										<View className=''>
-											<Text className='text-center mb-1 text-white'>
-												Shots/Drinks
-											</Text>
-											<Text className='text-center text-2xl font-bold text-white'>
-												{String(
-													allUsers.filter((u) => u.name === user.name)[0]
-														.overUnder
-												)}
-											</Text>
-										</View>
-										<TouchableOpacity
-											className={`p-4  rounded-md bg-gray-300 ${
-												user.answer === 'Under' && 'bg-blue-400'
-											}`}
-											disabled={disableAnswers}
-											onPress={() => {
-												andrewInputOverUnderAnswer(user.name, 'Under')
-											}}
-										>
-											<FontAwesome name='arrow-down' size={24} color='black' />
-										</TouchableOpacity>
+							<View
+								className=' rounded-lg items-center justify-center mx-10 py-4  my-4   bg-gray-600'
+								key={user.name}
+							>
+								<View className='flex-row  w-full justify-center '>
+									<View className=' '>
+										<Text className='text-center text-2xl font-bold text-white '>
+											{user.name}
+										</Text>
 									</View>
 								</View>
-							</Fragment>
+								<View className='flex flex-row w-full justify-evenly items-center'>
+									<TouchableOpacity
+										className={`p-4  rounded-md bg-gray-300 ${
+											user.answer === 'Over' && 'bg-blue-400'
+										}`}
+										disabled={disableAnswers}
+										onPress={() => {
+											andrewInputOverUnderAnswer(user.name, 'Over')
+										}}
+									>
+										<FontAwesome name='arrow-up' size={24} color='black' />
+									</TouchableOpacity>
+									<View className=''>
+										<Text className='text-center mb-1 text-white'>
+											Shots/Drinks
+										</Text>
+										<Text className='text-center text-2xl font-bold text-white'>
+											{String(
+												allUsers.filter((u) => u.name === user.name)[0]
+													.overUnder
+											)}
+										</Text>
+									</View>
+									<TouchableOpacity
+										className={`p-4  rounded-md bg-gray-300 ${
+											user.answer === 'Under' && 'bg-blue-400'
+										}`}
+										disabled={disableAnswers}
+										onPress={() => {
+											andrewInputOverUnderAnswer(user.name, 'Under')
+										}}
+									>
+										<FontAwesome name='arrow-down' size={24} color='black' />
+									</TouchableOpacity>
+								</View>
+							</View>
 						)
 					})}
 			</View>

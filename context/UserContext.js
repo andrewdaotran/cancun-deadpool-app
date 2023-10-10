@@ -18,14 +18,23 @@ export const UserProvider = ({ children }) => {
 	const [userData, setUserData] = useState({})
 	const [allUsers, setAllUsers] = useState([])
 	const [results, setResults] = useState({})
+	const [isLoading, setIsLoading] = useState(false)
+
+	const toggleIsLoading = (loadingBool) => {
+		setIsLoading(loadingBool ? loadingBool : !isLoading)
+	}
 
 	const updateUserDatabase = async () => {
-		try {
-			await updateDoc(doc(db, 'users', userData.docId), {
-				...userData,
-			})
-		} catch (error) {
-			console.log(error)
+		if (userData.name) {
+			try {
+				if (userData.docId) {
+					await updateDoc(doc(db, 'users', userData.docId), {
+						...userData,
+					})
+				}
+			} catch (error) {
+				console.log(error)
+			}
 		}
 	}
 
@@ -53,6 +62,9 @@ export const UserProvider = ({ children }) => {
 				}
 			})
 		})
+
+		toggleIsLoading(false)
+
 		return () => subscriber()
 	}
 
@@ -83,17 +95,14 @@ export const UserProvider = ({ children }) => {
 
 	const resetStorage = async () => {
 		try {
-			// const stuff = await AsyncStorage.getItem('@user')
-			// console.log(stuff)
-			await AsyncStorage.removeItem('@user')
 			await updateDoc(doc(db, 'users', userData.docId), {
 				profileChosen: false,
 			})
-
 			setUserData({})
-		} catch (e) {
-			// error reading value
-			console.log('usercontext reset storage', e)
+			await AsyncStorage.removeItem('@user')
+		} catch (error) {
+			console.log(error)
+			console.log('usercontext reset storage', error)
 		}
 	}
 
@@ -188,6 +197,8 @@ export const UserProvider = ({ children }) => {
 				results,
 				andrewInputAnswers,
 				andrewInputOverUnderAnswer,
+				isLoading,
+				toggleIsLoading,
 			}}
 		>
 			{children}

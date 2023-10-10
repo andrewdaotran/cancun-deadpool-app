@@ -13,24 +13,15 @@ import { db } from '../firebaseConfig'
 const HomeScreen = () => {
 	const navigation = useNavigation()
 
-	const [isLoading, setIsLoading] = useState(false)
-
-	const { userData, getUserFromStorage, allUsers, resetStorage } =
+	const { userData, getUserFromStorage, allUsers, resetStorage, isLoading } =
 		useContext(UserContext)
 
 	const { showResults, allowClearStorage } = useContext(AdminContext)
 
-	useEffect(() => {
-		if (!userData.name) {
-			setIsLoading(true)
-			// getUserFromStorage()
-		}
-		setIsLoading(false)
-	}, [])
-
-	return isLoading ? (
-		<Text className='text-center text-2xl'> Loading...</Text>
-	) : (
+	return (
+		// isLoading ? (
+		// 	<Text className='text-center text-2xl'> Loading...</Text>
+		// ) : (
 		<ScrollView className='mx-10 mt-4  flex-grow'>
 			{/* Clear Storage Button */}
 			{allowClearStorage && (
@@ -81,15 +72,30 @@ const HomeScreen = () => {
 				)}
 			</ScrollView>
 			{/* Results  */}
+
 			{showResults && (
 				<View className='mb-6'>
 					{/* Acutual Results */}
 					{/* Need to fix so we pull the data from database and show results */}
 					{/* <ResultsCard user={user} key={user.id} /> */}
 
-					{users.map((user) => {
-						return <ResultsCard user={user} key={user.id} />
-					})}
+					{allUsers // sorted by name
+						.sort((a, b) => {
+							const nameA = a.name.toUpperCase() // ignore upper and lowercase
+							const nameB = b.name.toUpperCase() // ignore upper and lowercase
+							if (nameA < nameB) {
+								return -1
+							}
+							if (nameA > nameB) {
+								return 1
+							}
+
+							// names must be equal
+							return 0
+						})
+						.map((user) => {
+							return <ResultsCard user={user} key={user.id} />
+						})}
 				</View>
 			)}
 

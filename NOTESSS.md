@@ -56,3 +56,7 @@ Database
   { name: 'Nicky', answer: false },
   { name: 'Robert', answer: false },
   ],
+
+10/09/23
+
+- Need to fix results.overUnderAnswers[index + 1].answer in className in ResultsCard,js
