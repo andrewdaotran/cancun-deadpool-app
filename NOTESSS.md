@@ -59,4 +59,5 @@ Database
 
 10/09/23
 
-- Need to fix results.overUnderAnswers[index + 1].answer in className in ResultsCard,js
+- Need to fix results.overUnderAnswers[index + 1].answer in className in ResultsCard.js
+  (fixed) 10/16/2023

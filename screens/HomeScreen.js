@@ -9,6 +9,7 @@ import ResultsCard from '../components/ResultsCard'
 import AdminContext from '../context/AdminContext'
 import { addDoc, collection, doc, updateDoc } from 'firebase/firestore'
 import { db } from '../firebaseConfig'
+import { sortArrAlphabetically } from '../utils'
 
 const HomeScreen = () => {
 	const navigation = useNavigation()
@@ -39,26 +40,11 @@ const HomeScreen = () => {
 			{userData.name && <ProfileCard user={userData} key={userData.id} />}
 			<ScrollView className=' '>
 				{!userData.name &&
-					allUsers
-						// sorted by name
-						.sort((a, b) => {
-							const nameA = a.name.toUpperCase() // ignore upper and lowercase
-							const nameB = b.name.toUpperCase() // ignore upper and lowercase
-							if (nameA < nameB) {
-								return -1
-							}
-							if (nameA > nameB) {
-								return 1
-							}
-
-							// names must be equal
-							return 0
-						})
-						.map((user) => {
-							return (
-								!user.profileChosen && <ProfileCard user={user} key={user.id} />
-							)
-						})}
+					sortArrAlphabetically(allUsers).map((user) => {
+						return (
+							!user.profileChosen && <ProfileCard user={user} key={user.id} />
+						)
+					})}
 
 				{userData.name && !showResults && (
 					<>
@@ -79,23 +65,9 @@ const HomeScreen = () => {
 					{/* Need to fix so we pull the data from database and show results */}
 					{/* <ResultsCard user={user} key={user.id} /> */}
 
-					{allUsers // sorted by name
-						.sort((a, b) => {
-							const nameA = a.name.toUpperCase() // ignore upper and lowercase
-							const nameB = b.name.toUpperCase() // ignore upper and lowercase
-							if (nameA < nameB) {
-								return -1
-							}
-							if (nameA > nameB) {
-								return 1
-							}
-
-							// names must be equal
-							return 0
-						})
-						.map((user) => {
-							return <ResultsCard user={user} key={user.id} />
-						})}
+					{sortArrAlphabetically(allUsers).map((user) => {
+						return <ResultsCard user={user} key={user.id} />
+					})}
 				</View>
 			)}
 

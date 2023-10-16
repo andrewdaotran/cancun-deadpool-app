@@ -22,14 +22,10 @@ const ResultsCard = ({ user }) => {
 
 	const totalOverUnder = () => {
 		let total = 0
-		console.log(
-			results.overUnderAnswers[2].answer === user.overUnderAnswers[2].answer
-		)
 		user.overUnderAnswers.forEach((answer, index) => {
 			if (results.overUnderAnswers[index].answer) {
 				if (answer.answer === results.overUnderAnswers[index].answer) {
 					total += 1
-					console.log(results.overUnderAnswers[total].answer)
 				}
 			}
 		})
@@ -101,14 +97,16 @@ const ResultsCard = ({ user }) => {
 							<View className='w-[50%] '>
 								{user.overUnderAnswers.map((answer, index) => {
 									if (index > 4) return
+									const overUnderUser = results.overUnderAnswers.filter(
+										(user) => user.name === answer.name
+									)[0]
 
 									return (
 										<Text className='mb-1 text-white' key={index}>
 											<Text className='font-semibold'>{answer.name}: </Text>
 											<Text
 												className={`${
-													answer.answer ===
-													results.overUnderAnswers[index + 1].answer
+													answer.answer === overUnderUser.answer
 														? 'text-green-400'
 														: 'text-red-400'
 												}`}
@@ -160,15 +158,15 @@ const ResultsCard = ({ user }) => {
 									Total over/unders correct:{' '}
 								</Text>
 								<Text
-								// className={`${
-								// 	totalOverUnder() <= 3
-								// 		? 'text-red-400'
-								// 		: totalOverUnder() > 3 && totalOverUnder() <= 6
-								// 		? 'text-yellow-400'
-								// 		: 'text-green-400'
-								// }`}
+									className={`${
+										totalOverUnder() <= 3
+											? 'text-red-400'
+											: totalOverUnder() > 3 && totalOverUnder() <= 6
+											? 'text-yellow-400'
+											: 'text-green-400'
+									}`}
 								>
-									{/* {totalOverUnder()} */}
+									{totalOverUnder()}
 								</Text>
 							</Text>
 						</View>
