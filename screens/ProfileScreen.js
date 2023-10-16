@@ -106,7 +106,7 @@ const ProfileScreen = () => {
 			)}
 
 			{/* Question 1 */}
-			<View className=' bg-gray-600 rounded-lg items-center justify-center mx-10 p-4 '>
+			<View className=' bg-gray-600 rounded-lg items-center justify-center mx-10 p-4 my-4'>
 				<Text className='text-center pb-4 text-white'>
 					{inputResults
 						? 'Who died first?'
@@ -134,7 +134,7 @@ const ProfileScreen = () => {
 			</View>
 
 			{/* Question 2 need to fix to have keyboard popup and only allow numbers*/}
-			<View className=' bg-gray-600  rounded-lg items-center justify-center mx-10 p-4 mt-4 '>
+			<View className=' bg-gray-600  rounded-lg items-center justify-center mx-10 p-4 mb-4 '>
 				<Text className='text-center pb-4 text-white'>
 					How many shots/drinks {inputResults ? 'did' : 'will'} it take for{' '}
 					{dieFirst ? (
@@ -146,7 +146,7 @@ const ProfileScreen = () => {
 				</Text>
 
 				<TextInput
-					className='border border-gray-400 w-fit py-2 px-4  text-center rounded-md text-white'
+					className='border border-gray-400 w-fit py-2 px-4  text-center rounded-md text-white '
 					placeholder='Enter a number...'
 					placeholderTextColor={'#fff'}
 					value={String(dieFirstShots)}
@@ -176,7 +176,7 @@ const ProfileScreen = () => {
 
 						return (
 							<View
-								className=' rounded-lg items-center justify-center mx-10 py-4  my-4   bg-gray-600'
+								className=' rounded-lg items-center justify-center mx-10 py-4  mb-4   bg-gray-600'
 								key={user.name}
 							>
 								<View className='flex-row  w-full justify-center '>
@@ -230,7 +230,7 @@ const ProfileScreen = () => {
 
 						return (
 							<View
-								className=' rounded-lg items-center justify-center mx-10 py-4  my-4   bg-gray-600'
+								className=' rounded-lg items-center justify-center mx-10 py-4  mb-4   bg-gray-600'
 								key={user.name}
 							>
 								<View className='flex-row  w-full justify-center '>

@@ -57,16 +57,15 @@ const HomeScreen = () => {
 					</>
 				)}
 			</ScrollView>
-			{/* Results  */}
 
 			{showResults && (
 				<View className='mb-6'>
-					{/* Acutual Results */}
-					{/* Need to fix so we pull the data from database and show results */}
-					{/* <ResultsCard user={user} key={user.id} /> */}
+					<ResultsCard isSoloResult={true} />
 
 					{sortArrAlphabetically(allUsers).map((user) => {
-						return <ResultsCard user={user} key={user.id} />
+						return (
+							<ResultsCard user={user} key={user.id} isSoloResult={false} />
+						)
 					})}
 				</View>
 			)}
