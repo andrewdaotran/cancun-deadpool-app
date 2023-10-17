@@ -24,7 +24,6 @@ const ProfileCard = ({ user }) => {
 		return users.filter((filteredUser) => filteredUser.name === user.name)[0]
 			.image
 	}
-	// console.log('PROFILE CARD', user)
 
 	const clickProfileCard = async () => {
 		// Add if clicked Andrew and storage is empty, must type in password to access admin features
@@ -39,12 +38,15 @@ const ProfileCard = ({ user }) => {
 	}
 
 	return (
-		<View className='bg-gray-600 align-center mb-4 rounded-md p-4 '>
+		<View className={`bg-gray-600 align-center mb-4 rounded-md p-4 `}>
 			<TouchableOpacity onPress={clickProfileCard}>
-				<Text className='text-center text-lg text-white font-semibold'>
-					{user.name}
-				</Text>
-				<Image className='w-60 h-60  mx-auto' source={retrieveUserImage()} />
+				{!userData.name && (
+					<Text className='text-center text-lg text-white font-semibold'>
+						{user.name}
+					</Text>
+				)}
+
+				<Image className='w-64 h-64 mx-auto' source={retrieveUserImage()} />
 			</TouchableOpacity>
 		</View>
 	)
